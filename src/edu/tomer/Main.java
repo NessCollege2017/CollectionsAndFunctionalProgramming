@@ -8,7 +8,14 @@ import java.util.function.Consumer;
 public class Main {
 
     public static void main(String[] args) {
+
+
        Map<String, Contact> map = new HashMap<>();
+
+
+
+
+
        map.put("Moe", new Contact("Moe", "green", "050710231"));//android Sharepref, Bundle, Intent(Bundle)
 
 
@@ -28,6 +35,13 @@ public class Main {
         //set Methods:
         //add, remove
         Set<String> names = new TreeSet<>();
+
+        Iterator<String> iterator = names.iterator();
+        while (iterator.hasNext()){
+            System.out.println(iterator.next());
+        }
+
+
         System.out.println(names.add("Codee"));//true
         System.out.println(names.add("Codee"));//false
         System.out.println(names.add("Codee"));//false
