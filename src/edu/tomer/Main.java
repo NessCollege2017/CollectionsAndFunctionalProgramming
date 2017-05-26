@@ -3,31 +3,77 @@ package edu.tomer;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public class Main {
 
     public static void main(String[] args) {
+        //Stream()...
+        List<String> names = new ArrayList<>();
+        names.add("Codee");
+        names.add("Codee");
+        names.add("Codee");
+        names.add("Mike");
+        names.add("Dave");
+        names.add("Moe");
+        names.add("Moana");
+
+        //count all the names.length
+        System.out.println(
+                names.stream().
+                        map(String::length).
+                        reduce(0, new BinaryOperator<Integer>() {
+                            @Override
+                            public Integer apply(Integer s, Integer i) {
+                                return s + i;
+                            }
+                        })
+        );
 
 
-       Map<String, Contact> map = new HashMap<>();
+        names.stream().
+                map(name->new Contact(name, "", "")).
+                forEach(System.out::println);
 
 
+        //filter: filter(s->s.contains("M")
+        //distinct, calls equals:
+        names.
+                stream().
+                distinct().
+                sorted((s1, s2)->s1.length()-s2.length()).
+                forEach(System.out::println);
+
+        //sum using a loop
+        //int sum = 0 //identity
+        //fori -> sum+=arr[i] //accumulator
+
+        //terminal operations:
+        Integer sums = Stream.of(1, 2, 3, 4, 5, 6).
+                reduce(0, (sum, arri) -> sum + arri);
+
+        Integer mult = Stream.of(1, 2, 3, 4, 5, 6).
+                reduce(1, (m, arri) -> m * arri);
+
+        //terminal operations:
+        names.stream().
+                distinct().
+                filter(s->s.contains("c")).
+                count();
+
+        Stream.of(1, 2, 3, 4, 5, 6).max((n1, n2) -> n1 - n2);
+        System.out.println(sums);
 
 
+        Collections.sort(names, (name1, name2) -> {
+            //return name1.compareTo(name2);//ordinal.
+            return name1.length() - name2.length(); //by length
+        });
 
-       map.put("Moe", new Contact("Moe", "green", "050710231"));//android Sharepref, Bundle, Intent(Bundle)
-
-
-        Map<String, Contact> tree = new TreeMap<>(); //
-        tree.put("A", new Contact("Dave", "D", "D"));
-        tree.put("C", new Contact("Gil", "D", "D"));
-        tree.put("B", new Contact("Aba", "D", "D"));
-
-        for (String s : tree.keySet()) {
-            System.out.println(s);
-            System.out.println(tree.get(s));
-        }
     }
 
     //Must implement comparable
